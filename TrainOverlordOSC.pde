@@ -12,11 +12,12 @@ import processing.serial.*;
 OscP5 oscP5;
 Serial xbeeSerial;
 int inPort = 8000;  // This should match to outPort on your smart phone
-String xbeePortName = "/dev/ttyUSB2"; // address of the xbee on Maker Bot PC
+String xbeePortName = "/dev/ttyUSB0"; // address of the xbee on Maker Bot PC
 //String xbeePortName = "/dev/tty.usbserial-A600e0Ui";
 float val;
+int valx,valy;
 
-// String portName = "/dev/tty.usbserial-A800ejhf";
+//String portName = "/dev/tty.usbserial-A800ejhf";
 boolean logEnabled = true; // set to false to turn off logging
 
 String OSC_PREFIX           = "/TOControl/";
@@ -34,8 +35,8 @@ String RESET                = OSC_PREFIX + "resetBtn";
 String STOP_ALL             = OSC_PREFIX + "stopAllBtn";
 String MOVE_TILL_IR_TRIGGER = OSC_PREFIX + "mvTillIrTgl";
 String PAN_TILT_CONTROL     = OSC_PREFIX + "panTiltCtrl";
-String LASER_ON             = OSC_PREFIX + "laserOn";
-String LASER_OFF            = OSC_PREFIX + "laserOff";
+String LASER                = OSC_PREFIX + "laser";
+String LASERTP              = OSC_PREFIX + "laserxy";
 String TILT_UP              = OSC_PREFIX + "tiltUp";
 String TILT_DOWN            = OSC_PREFIX + "tiltDown";
 String PAN_UP               = OSC_PREFIX + "panUp";
@@ -49,10 +50,9 @@ void setup()
 }
 
 void oscEvent(OscMessage theOscMessage) {
-
+  theOscMessage.print();
     String addr = theOscMessage.addrPattern();
     val  = theOscMessage.get(0).floatValue();
-    
     if (xbeeSerial != null) 
     {
       if (val == 1) // only send a message on button pressed
@@ -89,14 +89,6 @@ void oscEvent(OscMessage theOscMessage) {
         { 
             send("M");
         } 
-        else if (addr.equals(LASER_ON))       
-        { 
-            send("L");
-        }
-        else if (addr.equals(LASER_OFF))       
-        { 
-            send("l");
-        }
         else if (addr.equals(PAN_UP))       
         { 
             send("P");
@@ -130,6 +122,24 @@ void oscEvent(OscMessage theOscMessage) {
             send("S");
         }
       }
+      // Non-plain-buttons:
+       if(addr.equals(LASER))       
+        { //Laser power is a toggle:
+          if (val == 0)
+            send("l");
+          else
+            send("L");
+        } 
+       if(addr.equals("/1/xy")) // LASER TILT AND PAN
+       {
+           valx  = (int)((theOscMessage.get(0).floatValue() *70) + 20);
+           valy  = (int)(theOscMessage.get(1).floatValue() * 165 );
+           send("t");
+           send(""+nf(valx,3));
+           send("p");
+           send (""+nf(valy,3));
+       
+       }
     }
     
 }

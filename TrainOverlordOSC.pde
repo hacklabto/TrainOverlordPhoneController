@@ -34,6 +34,12 @@ String RESET                = OSC_PREFIX + "resetBtn";
 String STOP_ALL             = OSC_PREFIX + "stopAllBtn";
 String MOVE_TILL_IR_TRIGGER = OSC_PREFIX + "mvTillIrTgl";
 String PAN_TILT_CONTROL     = OSC_PREFIX + "panTiltCtrl";
+String LASER_ON             = OSC_PREFIX + "laserOn";
+String LASER_OFF            = OSC_PREFIX + "laserOff";
+String TILT_UP              = OSC_PREFIX + "tiltUp";
+String TILT_DOWN            = OSC_PREFIX + "tiltDown";
+String PAN_UP               = OSC_PREFIX + "panUp";
+String PAN_DOWN             = OSC_PREFIX + "panDown";
 
 
 void setup()
@@ -83,6 +89,30 @@ void oscEvent(OscMessage theOscMessage) {
         { 
             send("M");
         } 
+        else if (addr.equals(LASER_ON))       
+        { 
+            send("L");
+        }
+        else if (addr.equals(LASER_OFF))       
+        { 
+            send("l");
+        }
+        else if (addr.equals(PAN_UP))       
+        { 
+            send("P");
+        }
+        else if (addr.equals(PAN_DOWN))       
+        { 
+            send("p");
+        }
+        else if (addr.equals(TILT_UP))       
+        { 
+            send("T");
+        }
+        else if (addr.equals(TILT_DOWN))       
+        { 
+            send("t");
+        }
         else if (addr.equals(DWN_ONE_SEC))       
         { 
             send("m");

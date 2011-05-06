@@ -130,14 +130,16 @@ void oscEvent(OscMessage theOscMessage) {
           else
             send("L");
         } 
-       if(addr.equals("/1/xy")) // LASER TILT AND PAN
+       if(addr.equals(LASERTP)) // LASER TILT AND PAN
        {
            valx  = (int)((theOscMessage.get(0).floatValue() *70) + 20);
            valy  = (int)(theOscMessage.get(1).floatValue() * 165 );
-           send("t");
-           send(""+nf(valx,3));
+           
            send("p");
            send (""+nf(valy,3));
+           delay(10);
+           send("t");
+           send(""+nf(valx,3));
        
        }
     }

@@ -1,3 +1,10 @@
 This is the code to control TrainOverlord using a smart phone running touchOSC.
 To learn more about touchOSC see: http://hexler.net/software/touchosc
 
+Usage:
+-Use the touchOSC software to open and load the layout onto an iPhone / iPod. (Use the Sync button to do this)
+-Install oscp5 (http://www.sojamo.de/libraries/oscP5/index.html) in processing. (extract it and stick it in your sketchbook-folder/libraries/ )
+-Edit the processing script to point to the correct serial device
+-Open your firewall on port 8000.
+-Run the processing script.
+
